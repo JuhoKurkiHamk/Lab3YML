@@ -1,0 +1,32 @@
+name: Onnittele käyttäjää ensimmäisestä pull requestista
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  onnittele_kayttajia:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Tarkista, onko pull request ensimmäinen
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const user = context.payload.pull_request.user.login;
+            const firstPR = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              username: user,
+              state: 'open',
+            });
+            if (firstPR.data.length === 1) {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `Onnittelut ensimmäisestä pull requestistasi, ${user}!`
+              });
+            }
+
