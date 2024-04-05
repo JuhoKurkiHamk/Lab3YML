@@ -21,12 +21,6 @@ jobs:
               repo: context.repo.repo,
               labels: ["issue", "fix"]
             })
-      - name: Comment on new issue
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          body: |
-            Thanks for opening this issue! We'll take a look as soon as possible.
 
   # New job to comment on closed issues
   comment_on_closed:
