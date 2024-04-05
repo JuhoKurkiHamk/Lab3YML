@@ -2,7 +2,6 @@ name: Label & comment issues #the name of the workflow
 on: # This action will trigger when an issue is reopened or opened.
   issues:
     types:
-      - reopened
       - opened
 jobs: # The jobs that run in this workflow
   label_issues: # the first job is named as label_issues
